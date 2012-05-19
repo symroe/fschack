@@ -439,11 +439,10 @@ def example(request):
 class ViewReport(View):
     def get(self, request):
 
-        results = reports.find()
-        # results = reports.find({"data.measurement.width": {'$gt' : 500}})
+        results = reports.find({"experiment_type": "Stone Measurement"})
+        # results = reports.find({"data.measurement.width": {'$gt' : 80}})
 
-
-        results = json.dumps([result for result in results], default=json_util.default)
+        results = json.dumps([result['data']['measurement'] for result in results], default=json_util.default)
         
         return json_response(results)
 
