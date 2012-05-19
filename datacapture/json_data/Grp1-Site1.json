@@ -2,7 +2,7 @@
 [
 
 	{
-
+        "_id" : "Grp1-Site1-1",
 		"user_id" : "Group1",
 
 		"group_id" : "Group1",
@@ -30,7 +30,7 @@
 	},
 
 	{
-
+        "_id" : "Grp1-Site1-2",
 		"user_id" : "Group1",
 
 		"group_id" : "Group1",
@@ -58,7 +58,7 @@
 	},
 
 	{
-
+        "_id" : "Grp1-Site1-3",
 		"user_id" : "Group1",
 
 		"group_id" : "Group1",
@@ -86,7 +86,7 @@
 	},
 
 	{
-
+        "_id" : "Grp1-Site1-4",
 		"user_id" : "Group1",
 
 		"group_id" : "Group1",
@@ -114,7 +114,7 @@
 	},
 
 	{
-
+        "_id" : "Grp1-Site1-5",
 		"user_id" : "Group1",
 
 		"group_id" : "Group1",
@@ -142,7 +142,7 @@
 	},
 
 	{
-
+        "_id" : "Grp1-Site1-6",
 		"user_id" : "Group1",
 
 		"group_id" : "Group1",
