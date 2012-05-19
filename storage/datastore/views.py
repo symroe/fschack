@@ -25,13 +25,23 @@ class AddReport(View):
         
         Always returns True for now
         """
+        if 'data' not in report:
+            return {"error":"No data found"}
+        
+        
         return False
     
     def addreport(self, report):
         errors = self.validatereport(report)
         if errors:
             return errors
-        return reports.save(report)
+        report = reports.save(report)
+        saved = {
+            'generation_time' : report.generation_time.isoformat(),
+            'id' : str(report)
+        }
+        print saved
+        return saved
 
     def post(self, request):
         """
@@ -66,21 +76,17 @@ class AddReport(View):
         except:
             data = ""
 
+        ids = []
         if isinstance(data, list):
             for report in data:
-                self.addreport(report)
+                ids.append(self.addreport(report))
         elif isinstance(data, dict):
-            self.addreport(data)
+            ids = self.addreport(data)
         else:
             return json_response(json.dumps({
                 'error' : "expected JSON list or object"
             }), code="400")
-        
-
-
-
-
-
+        return json_response(json.dumps(ids))
 
 
 
@@ -92,7 +98,7 @@ def example(request):
     
     
     posts = settings.DB.posts
-    print posts.save(x)
+    print type(posts.save(x))
     # 
     # p = posts.find_one({'_id' : '0'})
     # p['name'] = "Sym Roe"
