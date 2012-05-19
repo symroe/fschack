@@ -1,0 +1,158 @@
+[
+	{
+		"_id" : "Grp3-Site4-1",
+		"user_id" : "Group3",
+		"group_id" : "Group3",
+		"datetime" : "2012-03-01",
+		"experiment_type" : "Wet Width",
+		"location" : {
+			"name":"Site4"        
+		},
+		"notes" : "",
+		"data": {
+			"measurement":6.63,
+			"unitofmeasurement":"m"		
+		}
+	},
+	{
+		"_id" : "Grp3-Site4-2",
+		"user_id" : "Group3",
+		"group_id" : "Group3",
+		"datetime" : "2012-03-01",
+		"experiment_type" : "Wetted Perimeter",
+		"location" : {
+			"name":"Site4"        
+		},
+		"notes" : "",
+		"data": {
+			"measurement":7.69,
+			"unitofmeasurement":"m"		
+		}
+	},
+	{
+		"_id" : "Grp3-Site4-3",
+		"user_id" : "Group3",
+		"group_id" : "Group3",
+		"datetime" : "2012-03-01",
+		"experiment_type" : "Gradient",
+		"location" : {
+			"name":"Site4"        
+		},
+		"notes" : "",
+		"data": {
+			"measurement":2,
+			"unitofmeasurement":"degree"		
+		}
+	},
+	{
+		"_id" : "Grp3-Site4-4",
+		"user_id" : "Group3",
+		"group_id" : "Group3",
+		"datetime" : "2012-03-01",
+		"experiment_type" : "Impellor Time",
+		"location" : {
+			"name":"Site4"        
+		},
+		"notes" : "",
+		"data": {
+			"measurement":[22.3,0,8.39,0,0],
+			"unitofmeasurement":"seconds"	
+		}
+	},
+	{
+		"_id" : "Grp3-Site4-5",
+		"user_id" : "Group3",
+		"group_id" : "Group3",
+		"datetime" : "2012-03-01",
+		"experiment_type" : "Wet (Water) Depth",
+		"location" : {
+			"name":"Site4"        
+		},
+		"notes" : "",
+		"data": {
+			"measurement":[0,0.07,0.08,0.21,0.35,0.42,0.08,0.02,0.08,0.19,0.18],
+			"unitofmeasurement":"m"	
+		}
+	},
+	{
+		"_id" : "Grp3-Site4-6",
+		"user_id" : "Group3",
+		"group_id" : "Group3",
+		"datetime" : "2012-03-01",
+		"experiment_type" : "Stone Measurement",
+		"location" : {
+			"name":"Site4"        
+		},
+		"notes" : "",
+		"data": {
+			"measurement":[
+				{
+					"length":25,
+					"width":20,
+					"depth":2,
+					"powershapeindex":6
+				},
+				{
+					"length":15,
+					"width":15,
+					"depth":9,
+					"powershapeindex":6
+				},
+				{
+					"length":59,
+					"width":55,
+					"depth":10,
+					"powershapeindex":5
+				},
+				{
+					"length":110,
+					"width":45,
+					"depth":8,
+					"powershapeindex":4
+				},
+				{
+					"length":49,
+					"width":45,
+					"depth":9,
+					"powershapeindex":6
+				},
+				{
+					"length":66,
+					"width":75,
+					"depth":19,
+					"powershapeindex":3
+				},
+				{
+					"length":56,
+					"width":55,
+					"depth":10,
+					"powershapeindex":5
+				},
+				{
+					"length":55,
+					"width":30,
+					"depth":8,
+					"powershapeindex":5
+				},
+				{
+					"length":143,
+					"width":60,
+					"depth":20,
+					"powershapeindex":3
+				},
+				{
+					"length":70,
+					"width":40,
+					"depth":10,
+					"powershapeindex":5
+				},
+				{
+					"length":60,
+					"width":25,
+					"depth":20,
+					"powershapeindex":6
+				}
+			]
+		}
+	}	
+]
