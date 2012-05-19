@@ -1,85 +1,85 @@
 [
 	{
-		'user_id' : 'Group1',
-		'group_id' : 'Group1',
-		'datetime' : '2012-01-01',
-		'experiment_type' : 'Wet Width',
-		'location' : {
-			'name':'Site1'        
+		"user_id" : "Group1",
+		"group_id" : "Group1",
+		"datetime" : "2012-01-01",
+		"experiment_type" : "Wet Width",
+		"location" : {
+			"name":"Site1"        
 		},
-		'notes' : '',
-		'data' {
-			'measurement':1.9,
-			'unitofmeasurement':'m'		
+		"notes" : "",
+		"data": {
+			"measurement":1.9,
+			"unitofmeasurement":"m"		
 		}
 	},
 	{
-		'user_id' : 'Group1',
-		'group_id' : 'Group1',
-		'datetime' : '2012-01-01',
-		'experiment_type' : 'Wetted Perimeter',
-		'location' : {
-			'name':'Site1'        
+		"user_id" : "Group1",
+		"group_id" : "Group1",
+		"datetime" : "2012-01-01",
+		"experiment_type" : "Wetted Perimeter",
+		"location" : {
+			"name":"Site1"        
 		},
-		'notes' : '',
-		'data' {
-			'measurement':2.38,
-			'unitofmeasurement':'m'		
+		"notes" : "",
+		"data": {
+			"measurement":2.38,
+			"unitofmeasurement":"m"		
 		}
 	},
 	{
-		'user_id' : 'Group1',
-		'group_id' : 'Group1',
-		'datetime' : '2012-01-01',
-		'experiment_type' : 'Gradient',
-		'location' : {
-			'name':'Site1'        
+		"user_id" : "Group1",
+		"group_id" : "Group1",
+		"datetime" : "2012-01-01",
+		"experiment_type" : "Gradient",
+		"location" : {
+			"name":"Site1"        
 		},
-		'notes' : '',
-		'data' {
-			'measurement':4,
-			'unitofmeasurement':'degree'		
+		"notes" : "",
+		"data": {
+			"measurement":4,
+			"unitofmeasurement":"degree"		
 		}
 	},
 	{
-		'user_id' : 'Group1',
-		'group_id' : 'Group1',
-		'datetime' : '2012-01-01',
-		'experiment_type' : 'Impellor Time',
-		'location' : {
-			'name':'Site1'        
+		"user_id" : "Group1",
+		"group_id" : "Group1",
+		"datetime" : "2012-01-01",
+		"experiment_type" : "Impellor Time",
+		"location" : {
+			"name":"Site1"        
 		},
-		'notes' : '',
-		'data' {
-			'measurement':[75,28,20,19.5,78],
-			'unitofmeasurement':'seconds'	
+		"notes" : "",
+		"data": {
+			"measurement":[75,28,20,19.5,78],
+			"unitofmeasurement":"seconds"	
 		}
 	},
 	{
-		'user_id' : 'Group1',
-		'group_id' : 'Group1',
-		'datetime' : '2012-01-01',
-		'experiment_type' : 'Wet (Water) Depth',
-		'location' : {
-			'name':'Site1'        
+		"user_id" : "Group1",
+		"group_id" : "Group1",
+		"datetime" : "2012-01-01",
+		"experiment_type" : "Wet (Water) Depth",
+		"location" : {
+			"name":"Site1"        
 		},
-		'notes' : '',
-		'data' {
-			'measurement':[0.2,0.25,0.11,0.1,0.1,0.09,0.06,0.12,0.02,0.03],
-			'unitofmeasurement':'m'	
+		"notes" : "",
+		"data": {
+			"measurement":[0.2,0.25,0.11,0.1,0.1,0.09,0.06,0.12,0.02,0.03],
+			"unitofmeasurement":"m"	
 		}
 	},
 	{
-		'user_id' : 'Group1',
-		'group_id' : 'Group1',
-		'datetime' : '2012-01-01',
-		'experiment_type' : 'Stone Measurement',
-		'location' : {
-			'name':'Site1'        
+		"user_id" : "Group1",
+		"group_id" : "Group1",
+		"datetime" : "2012-01-01",
+		"experiment_type" : "Stone Measurement",
+		"location" : {
+			"name":"Site1"        
 		},
-		'notes' : '',
-		'data' {
-			[
+		"notes" : "",
+		"data": {
+			"measurement":[
 				{
 					"length":99,
 					"width":71,
@@ -145,7 +145,7 @@
 					"width":35,
 					"depth":7,
 					"powershapeindex":5
-				},
+				}
 			]
 		}
 	}	
