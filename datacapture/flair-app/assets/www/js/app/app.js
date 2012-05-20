@@ -36,24 +36,70 @@ function startApp() {
 			safelySetItem("currentSite", $(this).attr("data-site-id"));
 		});			
 		
-		// TODO: Check each site list element in the datastore and see if it's 
-		// complete. If so, colour it green and mark it with a check.
-		
-		// Bind to submits on the sync button
-		$("#syncSubmit").live("tap", function () {
-			$.ajax("http://192.168.2.23", {
-				'data': JSON.stringify(getAllObservations()),
-				'error': function () {
-					alert("There was an error syncing your data. Please try again!");
-				},
-				'success' : function (data, textStatus, jqXHR) {
-					alert("Data successfully synced! All local data will now be wiped!");
-					//localStorage.clear();
-				},
-				'type' : "POST"
-			});
+		// Update the list to show any that are completed as such
+		$("#siteList li").each(function () {
+			// Check the relevant observation object exists and is completed
+			var observation = getObservation("site" + $(this).children().children().children(".siteLink").attr("data-site-id"));
+			if(observationIsComplete(observation)) {
+				$(this).jqmData({'data-icon': 'check'});
+				$(this).children().children().next().removeClass('ui-icon-plus').addClass('ui-icon-check');
+				$(this).children().children().children(".siteLink").css({"color" : "green"});
+			}
 		});
 		
+		// Bind to submits on the sync button
+		$("#syncSubmit").live("tap", function (e) {
+			e.stopImmediatePropagation();
+			e.preventDefault();
+			$.ajax({
+				crossDomain:true,
+				url: "http://192.168.2.20:8000/data/add/",
+				dataType: 'json',
+				contentType: 'application/json',
+				data: JSON.stringify(getAllObservations()),
+				error: function () {
+					alert("There was an error syncing your data. Please try again!");
+				},
+				success : function (data, textStatus, jqXHR) {
+					for(var i; i < data.length; i++) {
+						if(data[i].error === null) {
+							alert("There was an error syncing your data. Please try again! Error message: " + data[i].error);
+						}
+					}
+					alert("Data successfully synced! You need to clear your data before starting a new session");
+				},
+				type : "POST"
+			});
+			return false;
+		});
+		
+		// Bind to submits on the clear data button
+		$("#clearSubmit").live("tap", function (e) {
+			e.stopImmediatePropagation();
+			e.preventDefault();
+			if(confirm("Are you really sure you want to delete ALL your data? This can't be undone!")) {
+				window.localStorage.clear();
+				$.mobile.changePage("#homePage", {'reloadPage':true});
+			}
+		});
+	});
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Visualisation page
+	///////////////////////////////////////////////////////////////////////////
+	
+	$("#visualisationPage").live('pageshow',function() {
+		for(var i = 1; i < 9; i++) {
+				// Check the relevant observation object exists and is completed
+				var observation = getObservation("site" + i.toString());
+				if(observationIsComplete(observation)) {
+					var wetWidth = observation[0].data.measurement;
+					var depths = observation[4].data.measurement;
+					var chartDivId = "site" + i.toString() + "Chart";
+					// plotGraph(chartDivId, wetWidth, depths);
+				}
+			});
+		}
 	});
 	
 	///////////////////////////////////////////////////////////////////////////
@@ -64,20 +110,52 @@ function startApp() {
 		
 		// Get the current site id
 		var currentSite = window.localStorage.getItem("currentSite");
-		var observation = getOrCreateSiteObservation("site" + currentSite.toString());
-		// Update the page title
-		$("#site-title").text("You are at: Site " + currentSite);
-		
-	    // Bind to next button clicks
-		$("#depthSubmit").live("tap",function (e) {
-			var observation = getCurrentObservation();
-			var currentSite = window.localStorage.getItem("currentSite");
-			// Save into localStorage
-			observation[0].data.measurement = parseFloat($("#wet-width").val());
-			observation[1].data.measurement = parseFloat($("#wetted-perimeter").val());
-			observation[2].data.measurement = parseFloat($("#gradient").val());
-			setObservation("site" + currentSite, observation);
-	    });
+		if(currentSite !== null) {
+			var observation = getOrCreateSiteObservation("site" + currentSite.toString());
+			
+			// Update the page title
+			$("#site-title").text("You are at: Site " + currentSite);
+			
+			// Setup validation
+			$("#site-form").validate({
+				rules: {
+					wetwidth: "required",
+					wettedperimeter: "required",
+					gradient: "required"
+				},
+				submitHandler : function (form) {
+					// We never 'submit' the form because there are trickeries to
+					// jqueryMobile's events, see the 'tap' event bindings below
+				},
+				invalidHandler : function (form) {
+					alert("Looks like you missed something, can you double check?");
+				}
+				
+			});
+			
+		    // Bind to next button clicks
+			$("#depthSubmit").live("tap",function (e) {
+				$("#site-form").validate();
+				if($("#site-form").valid()) {
+					var observation = getCurrentObservation();
+					var currentSite = window.localStorage.getItem("currentSite");
+					// Save into localStorage
+					observation[0].data.measurement = parseFloat($("#wet-width").val());
+					observation[1].data.measurement = parseFloat($("#wetted-perimeter").val());
+					observation[2].data.measurement = parseFloat($("#gradient").val());
+					setObservation("site" + currentSite, observation);
+				}
+				else {
+					e.stopImmediatePropagation();
+					e.preventDefault();
+					return false;
+				}
+		    });
+		}
+		else {
+			alert("Current Site not set - go back to the start and retry");
+			$.mobile.changePage("#homePage");
+		}
 	});
 	
 	///////////////////////////////////////////////////////////////////////////
@@ -90,50 +168,110 @@ function startApp() {
 		// Get the current observation
 		var observation = getCurrentObservation();
 		
-		// Get the river width
-		var totalWidth = parseFloat(observation[0].data.measurement);
-		// TODO - check for NaN
-	
-		// Calculate the step size
-		var stepSize = totalWidth/(totalDataPoints-1);
+		if(observation !== null) {
+			// Get the river width
+			var totalWidth = parseFloat(observation[0].data.measurement);
+			// TODO - check for NaN
 		
-		// Update the measurement titles
-		for(var i = 0; i < totalDataPoints; i++) {
-			var distance = (stepSize * parseFloat(i)).toFixed(2);
-			$("#depth-measurement-" + (i + 1).toString() + "-title").text("Distance to measure at: " + distance.toString() + "m");
+			// Calculate the step size
+			var stepSize = totalWidth/(totalDataPoints-1);
+			
+			// Update the measurement titles
+			for(var i = 0; i < totalDataPoints; i++) {
+				var distance = (stepSize * parseFloat(i)).toFixed(2);
+				$("#depth-measurement-" + (i + 1).toString() + "-title").text("Distance to measure at: " + distance.toString() + "m");
+			}
+			
+			// Setup validation
+			$("#depth-form").validate({
+				rules: {
+					depthmeasurement1: "required",
+					depthmeasurement2: "required",
+					depthmeasurement3: "required",
+					depthmeasurement4: "required",
+					depthmeasurement5: "required",
+				},
+				submitHandler : function (form) {
+					// We never 'submit' the form because there are trickeries to
+					// jqueryMobile's events, see the 'tap' event bindings below
+				},
+				invalidHandler : function (form) {
+					alert("Looks like you missed something, can you double check?");
+				}
+				
+			});
+			
+		    // Bind to next button click
+		    $("#flowSubmit").live('tap', function (e) {
+		    	$("#depth-form").validate();
+				if($("#depth-form").valid()) {
+			    	var currentSite = window.localStorage.getItem("currentSite");
+			    	var observation = getCurrentObservation();
+			    	var depthMeasurements = [];
+			    	// TODO - serialise form element properly
+			    	for(var i = 0; i < 5; i++) {
+			    		var elementId = "#depth-measurement" + (i + 1).toString();
+				    	depthMeasurements[i] = parseFloat($(elementId).val());
+			    	}
+			    	observation[4].data.measurement = depthMeasurements;
+			    	setObservation("site" + currentSite, observation);
+				}
+				else {
+					e.stopImmediatePropagation();
+					e.preventDefault();
+					return false;
+				}
+		    });
 		}
-		
-	    // Bind to next button click
-	    $("#flowSubmit").live('tap', function (e) {
-	    	var currentSite = window.localStorage.getItem("currentSite");
-	    	var observation = getCurrentObservation();
-	    	var depthMeasurements = [];
-	    	// TODO - serialise form element properly
-	    	for(var i = 0; i < 5; i++) {
-	    		var elementId = "#depth-measurement" + (i + 1).toString();
-		    	depthMeasurements[i] = parseFloat($(elementId).val());
-	    	}
-	    	observation[4].data.measurement = depthMeasurements;
-	    	setObservation("site" + currentSite, observation);
-	    });
+		else {
+			alert("Error retrieving site data, please go back and put it in.");
+			$.mobile.changePage("#observationPage");
+		}
 	});
 	
 	///////////////////////////////////////////////////////////////////////////
 	// Flow page
 	///////////////////////////////////////////////////////////////////////////	
 	$("#flowPage").live('pageshow',function() {	
+		// Setup validation
+		$("#flow-form").validate({
+			rules: {
+				flowmeasurement1: "required",
+				flowmeasurement2: "required",
+				flowmeasurement3: "required",
+				flowmeasurement4: "required",
+				flowhmeasurement5: "required",
+			},
+			submitHandler : function (form) {
+				// We never 'submit' the form because there are trickeries to
+				// jqueryMobile's events, see the 'tap' event bindings below
+			},
+			invalidHandler : function (form) {
+				alert("Looks like you missed something, can you double check?");
+			}
+			
+		});
+		
 		// Bind to next button click
 	    $("#finishSubmit").live('tap', function (e) {
-	    	var currentSite = window.localStorage.getItem("currentSite");
-	    	var observation = getCurrentObservation();
-	    	var flowMeasurements = [];
-	    	// TODO - serialise form element properly
-	    	for(var i = 0; i < 5; i++) {
-	    		var elementId = "#flow-measurement" + (i + 1).toString();
-		    	flowMeasurements[i] = parseFloat($(elementId).val());
-	    	}
-	    	observation[3].data.measurement = flowMeasurements;
-	    	setObservation("site" + currentSite, observation);
+	    	$("#flow-form").validate();
+			if($("#flow-form").valid()) {
+		    	var currentSite = window.localStorage.getItem("currentSite");
+		    	var observation = getCurrentObservation();
+		    	var flowMeasurements = [];
+		    	// TODO - serialise form element properly
+		    	for(var i = 0; i < 5; i++) {
+		    		var elementId = "#flow-measurement" + (i + 1).toString();
+			    	flowMeasurements[i] = parseFloat($(elementId).val());
+		    	}
+		    	observation[3].data.measurement = flowMeasurements;
+		    	setObservation("site" + currentSite, observation);
+		    }
+			else {
+				e.stopImmediatePropagation();
+				e.preventDefault();
+				return false;
+			}
 	    });
 	});
 }
@@ -179,19 +317,21 @@ function getCurrentObservation() {
 	return currentObservation;
 }
 
+function getObservation(site_name) {
+	return JSON.parse(window.localStorage.getItem(site_name + ":observation"));
+}
+
 /**
  * Get site observation from local storage or create a new one.
  * @param site_name - string site_name
  * @returns
  */
 function getOrCreateSiteObservation(site_name) {
-	var observation = JSON.parse(window.localStorage.getItem(site_name + ":observation"));
-	console.log(observation);
+	var observation = getObservation(site_name);
 	if(observation == null) {
 		observation = siteObservation(site_name);
 		setObservation(site_name, observation);
 	}
-	console.log(observation);
 	return observation;
 }
 
@@ -212,7 +352,6 @@ function getAllObservations() {
  * @returns
  */
 function siteObservation(site_name, user_id, group_id, datetime) {
-	console.log(site_name);
 	// Optional parameters
 	user_id = typeof user_id !== 'undefined' ? user_id : "Group1";
 	group_id = typeof group_id !== 'undefined' ? group_id : "Group1";
@@ -380,10 +519,43 @@ function siteObservation(site_name, user_id, group_id, datetime) {
 				]
 			}
 		}
-	];
-	
-	console.log(observation);
-	
+	];	
 	
 	return observation;
+}
+
+/**
+ * Check an observation object is complete
+ * @param observation - the object to check
+ */
+function observationIsComplete(observation) {
+	if(observation === null || observation.length === 0) {
+		return false;
+	}
+	
+	// Check single value fields
+	// wetwidth, wettedperimeter, gradient
+	if(observation[0].data.measurement === 0.0
+			|| observation[1].data.measurement === 0.0
+			|| observation[2].data.measurement === 0) {
+		
+		return false
+	}
+	
+	// Check array value fields
+	// impellor times
+	for(var i = 0; i < 5; i++) {
+		if(observation[3].data.measurement[i] === 0.0) {
+			return false;
+		}
+	}
+	// Check array value fields
+	// depths
+	for(var i = 0; i < 5; i++) {
+		if(observation[4].data.measurement[i] === 0.0) {
+			return false;
+		}
+	}
+	
+	return true;
 }

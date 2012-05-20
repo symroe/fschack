@@ -28,52 +28,62 @@
 		<script type="text/javascript" charset="utf-8" src="js/app/app.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/app/bootstrap.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/libs/jquery.mobile-1.1.0.min.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/libs/jquery.validate.min.js"></script>
 	</head>
 	<body>
 	
 		<!-- Homepage -->
 		<div data-role="page" id="homePage"> 
 			<div data-role="header">
-		  		<a href="#homePage" rel="external" data-icon="home">Home</a>
+		  		<a href="#homePage" data-icon="home">Home</a>
 		    	<h1>Fieldwork</h1> 
-		    	<a href="#visualisePage" rel="external" data-icon="gear">Visualise</a>
+		    	<a href="#visualisePage" data-icon="gear">Visualise</a>
 		  	</div> 
 		  	<div data-role="content">
 		    	<ul id="siteList" data-role="listview"> 
-		  			<li><a class="siteLink" href="#observationPage" data-site-id="1" data-icon="delete">Site 1</a></li>
-		  			<li><a class="siteLink" href="#observationPage" data-site-id="2" data-icon="plus">Site 2</a></li>
-		  			<li><a class="siteLink" href="#observationPage" data-site-id="3" data-icon="plus">Site 3</a></li>
-		  			<li><a class="siteLink" href="#observationPage" data-site-id="4" data-icon="plus">Site 4</a></li>
-		  			<li><a class="siteLink" href="#observationPage" data-site-id="5" data-icon="plus">Site 5</a></li>
-		  			<li><a class="siteLink" href="#observationPage" data-site-id="6" data-icon="plus">Site 6</a></li>
-		  			<li><a class="siteLink" href="#observationPage" data-site-id="7" data-icon="plus">Site 7</a></li>
-		  			<li><a class="siteLink" href="#observationPage" data-site-id="8" data-icon="plus">Site 8</a></li>
+		  			<li data-icon="plus"><a class="siteLink" href="#observationPage" data-site-id="1">Site 1</a></li>
+		  			<li data-icon="plus"><a class="siteLink" href="#observationPage" data-site-id="2">Site 2</a></li>
+		  			<li data-icon="plus"><a class="siteLink" href="#observationPage" data-site-id="3">Site 3</a></li>
+		  			<li data-icon="plus"><a class="siteLink" href="#observationPage" data-site-id="4">Site 4</a></li>
+		  			<li data-icon="plus"><a class="siteLink" href="#observationPage" data-site-id="5">Site 5</a></li>
+		  			<li data-icon="plus"><a class="siteLink" href="#observationPage" data-site-id="6">Site 6</a></li>
+		  			<li data-icon="plus"><a class="siteLink" href="#observationPage" data-site-id="7">Site 7</a></li>
+		  			<li data-icon="plus"><a class="siteLink" href="#observationPage" data-site-id="8">Site 8</a></li>
 		  		</ul>
 		  	</div>  
-		  	<a id="syncSubmit" href="http://192.168.2.20:8000/reports/report" data-role="button" data-icon="refresh">Synchronise</a> 
+		  	<a id="syncSubmit" href="#homePage" data-role="button" data-icon="refresh">Synchronise</a>
+		  	<a id="clearSubmit" href="#homePage" data-role="button" data-icon="delete">Delete all data</a> 
 		</div>
 		
 		<!-- Site page -->
 		<div data-role="page" id="observationPage"> 
 			<div data-role="header">
-		  		<a href="#homePage" rel="external" data-icon="home">Start Again</a>
+		  		<a href="#homePage" data-icon="home">Start Again</a>
 				<h1>Site</h1> 
 			</div>  
 			<div data-role="content">
 				<h2 id="site-title"><!-- Put in by JS --></h2> 
 				<p>First, we need to measure the <abbr title="The width of the river at the water line.">Wet Width</abbr>, the Wetted Perimeter and the Gradient of the surface of the water.</p>
+				<div class="ui-grid-a">
+					<div class="ui-block-a">
+						<p style="text-align:center;"><h3>Wet Width and Wetted Perimeter</h3><img src="img/river.png" alt="The River"/></p>
+					</div>
+					<div class="ui-block-b">
+						<p style="text-align:center;"><h3>The Angle</h3><img src="img/angle.png" alt="The River"/></p>
+					</div>
+				</div>
 		    	<form id="site-form">
 		    		<div data-role="field-contain">
 		    			<label for="wet-width">Wet Width (m): </label>
-		    			<input name="wetwidth" id="wet-width" type="number" pattern="[0-9]*" />
+		    			<input name="wetwidth" id="wet-width" type="text"/>
 		    		</div>
 		    		<div data-role="field-contain">
 		    			<label for="wetted-perimeter">Wetted Perimeter (m): </label>
-		    			<input name="wettedperimeter" id="wetted-perimeter" type="number" pattern="[0-9]*" />
+		    			<input name="wettedperimeter" id="wetted-perimeter" type="text" />
 		    		</div>
 		    		<div data-role="field-contain">
 		    			<label for="gradient">Gradient (&deg;): </label>
-		    			<input name="gradient" id="gradient" type="number" pattern="[0-9]*" />
+		    			<input name="gradient" id="gradient" type="number" />
 		    		</div>
 		    		<a id="depthSubmit" href="#depthPage" data-role="button" data-icon="forward" data-iconpos="right">Next - Measure the depth</a>
 		    	</form>
@@ -83,38 +93,39 @@
 		<!-- Depth Measurement page -->
 		<div data-role="page" id="depthPage"> 
 			<div data-role="header">
-		  		<a href="#homePage" rel="external" data-icon="home">Start Again</a>
+		  		<a href="#homePage" data-icon="home">Start Again</a>
 				<h1>Depth</h1> 
-				<a href="#observationPage" rel="external" data-icon="back">Back</a>
+				<a href="#observationPage" data-icon="back">Back</a>
 			</div>  
 			<div data-role="content">
 				<h2 id="site-title"><!-- Put in by JS --></h2> 
 				<p>Now, we need to measure the depth of the river across its' width. You have to measure the depth at each of these 5 points.</p>
+				<p style="text-align:center;"><h3>Depths</h3><img src="img/riverHeights.png" alt="The River"/></p>
 		    	<form id="depth-form">
 		    		<div data-role="field-contain">
 		    			<h3 id="depth-measurement-1-title">Distance to measure at: </h3>
 		    			<label for="depth-measurement1">Wet (Water) Depth (m): </label>
-		    			<input name="depthmeasurement" id="depth-measurement1" type="number" pattern="[0-9]*" />
+		    			<input name="depthmeasurement1" id="depth-measurement1" type="text" />
 		    		</div>
 		    		<div data-role="field-contain">
 		    			<h3 id="depth-measurement-2-title">Distance to measure at: </h3>
 		    			<label for="depth-measurement2">Wet (Water) Depth (m): </label>
-		    			<input name="depthmeasurement" id="depth-measurement2" type="number" pattern="[0-9]*" />
+		    			<input name="depthmeasurement2" id="depth-measurement2" type="text" />
 		    		</div>
 		    		<div data-role="field-contain">
 		    			<h3 id="depth-measurement-3-title">Distance to measure at: </h3>
 		    			<label for="depth-measurement3">Wet (Water) Depth (m): </label>
-		    			<input name="depthmeasurement" id="depth-measurement3" type="number" pattern="[0-9]*" />
+		    			<input name="depthmeasurement3" id="depth-measurement3" type="text" />
 		    		</div>
 		    		<div data-role="field-contain">
 		    			<h3 id="depth-measurement-4-title">Distance to measure at: </h3>
 		    			<label for="depth-measurement4">Wet (Water) Depth (m): </label>
-		    			<input name="depthmeasurement" id="depth-measurement4" type="number" pattern="[0-9]*" />
+		    			<input name="depthmeasurement4" id="depth-measurement4" type="text" />
 		    		</div>
 		    		<div data-role="field-contain">
 		    			<h3 id="depth-measurement-5-title">Distance to measure at: </h3>
 		    			<label for="depth-measurement5">Wet (Water) Depth (m): </label>
-		    			<input name="depthmeasurement" id="depth-measurement5" type="number" pattern="[0-9]*" />
+		    			<input name="depthmeasurement5" id="depth-measurement5" type="text" />
 		    		</div>
 		    		<a id="flowSubmit" href="#flowPage" data-role="button" data-icon="forward" data-iconpos="right">Next - Measure the flow</a>
 		    	</form>
@@ -130,35 +141,56 @@
 			</div>
 			<div data-role="content">
 				<h2 id="site-title"><!-- Put in by JS --></h2> 
-				<p>Finally, we'll measure the flow rate of the river. To do this, we  need to take the Impellor time for each of the following points across the river.</p>
+				<p>Finally, we'll measure the flow rate of the river. To do this, we need to take the Impellor time for each of the following points across the river.</p>
+				<p style="text-align:center;"><h3>Flow Rate</h3><img src="img/flowRate.png" alt="The River"/></p>
 		    	<form id="flow-form">
 		    		<div data-role="field-contain">
 		    			<h3>Left hand bank</h3>
 		    			<label for="flow-measurement1">Impellor time (seconds): </label>
-		    			<input name="flowmeasurement" id="flow-measurement1" type="number" pattern="[0-9]*" />
+		    			<input name="flowmeasurement1" id="flow-measurement1" type="number" />
 		    		</div>
 		    		<div data-role="field-contain">
 		    			<h3>1/4 of the way across</h3>
 		    			<label for="flow-measurement2">Impellor time (seconds): </label>
-		    			<input name="flowmeasurement" id="flow-measurement2" type="number" pattern="[0-9]*" />
+		    			<input name="flowmeasurement2" id="flow-measurement2" type="number" />
 		    		</div>
 		    		<div data-role="field-contain">
 		    			<h3>1/2 way across</h3>
 		    			<label for="flow-measurement3">Impellor time (seconds): </label>
-		    			<input name="flowmeasurement" id="flow-measurement3" type="number" pattern="[0-9]*" />
+		    			<input name="flowmeasurement3" id="flow-measurement3" type="number" />
 		    		</div>
 		    		<div data-role="field-contain">
 		    			<h3>3/4 of the way across</h3>
 		    			<label for="flow-measurement4">Impellor time (seconds): </label>
-		    			<input name="flowmeasurement" id="flow-measurement4" type="number" pattern="[0-9]*" />
+		    			<input name="flowmeasurement4" id="flow-measurement4" type="number" />
 		    		</div>
 		    		<div data-role="field-contain">
 		    			<h3>Right hand bank: </h3>
 		    			<label for="flow-measurement5">Impellor time (seconds): </label>
-		    			<input name="flowmeasurement" id="flow-measurement5" type="number" pattern="[0-9]*" />
+		    			<input name="flowmeasurement5" id="flow-measurement5" type="number" />
 		    		</div>
 		    		<a id="finishSubmit" href="#homePage" data-role="button" data-icon="forward" data-iconpos="right">Finish this observation</a>
 		    	</form>
+			</div>
+		</div>
+		
+		<!-- Visualisation Page -->
+		<div data-role="page" id="visualisationPage"> 
+			<div data-role="header">
+		  		<a href="#homePage" data-icon="home">Home</a>
+				<h1>Visualise</h1> 
+			</div>
+			<div data-role="content">
+				<div class="ui-grid-a">
+					<div class="ui-block-a"><div id="site1Chart"></div></div>
+					<div class="ui-block-b"><div id="site2Chart"></div></div>
+					<div class="ui-block-a"><div id="site3Chart"></div></div>
+					<div class="ui-block-b"><div id="site4Chart"></div></div>
+					<div class="ui-block-a"><div id="site5Chart"></div></div>
+					<div class="ui-block-b"><div id="site6Chart"></div></div>
+					<div class="ui-block-a"><div id="site7Chart"></div></div>
+					<div class="ui-block-b"><div id="site8Chart"></div></div>
+				</div>
 			</div>
 		</div>
 	</body>

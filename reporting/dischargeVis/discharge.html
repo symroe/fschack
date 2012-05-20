@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Discharge Example with Processing.js</title>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="processing-1.3.6.js"></script>
+
+
+    <script type="text/processing" data-processing-target="targetcanvas">
+      //  Processing.js example sketch
+      int fontsize = 24;
+      float discharge_value = discharge(2,4);
+      int animationY = 10;
+	
+      void setup() {
+        size(300, 300);
+        stroke(0);
+        fill(0);
+        textFont(createFont("Arial",fontsize));
+        //noLoop();
+        frameRate(60);
+      }
+
+      void draw() {
+        background(#F0F0E0);
+        
+        animationY = animationY + discharge_value;
+        ellipse(10, animationY, 10, 10);
+        ellipse(130, animationY - 15, 10, 10);
+        ellipse(255, animationY + 10, 10, 10);
+        if(animationY >= height){
+        	animationY = 0;
+        }        
+        
+        String textstring = discharge_value;
+        float twidth = textWidth(textstring);
+        text(textstring, (width-twidth)/2, height/2);
+      }
+      
+      float discharge(area,velocity){
+      	//calculates discharge (m^3/s)
+      	return (area * velocity);
+      }
+      
+      float average_velocity(velocities[]){
+      
+      }
+    </script>
+  </head>
+
+  <body>
+
+    <canvas id="targetcanvas" style="border: 1px solid black;"></canvas>
+  </body>
+</html>
