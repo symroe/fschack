@@ -50,13 +50,42 @@ class HTMLFormview(ReportView):
 class ScatterGraphReport(ReportView):
         
     def get(self, request):
-        query = self.buildQuery(request)
+        
+        import river_maths
+        base_query = self.buildQuery(request)
 
-        results = reports.find(query)
-        # results = json.dumps(list(results), default=json_util.default)
-        results = json.dumps([result['experiment_type'] for result in results], default=json_util.default)
+        width_query = base_query
+        width_query['experiment_type'] = "Wet Width"
+        width_results = reports.find(width_query).sort('location.name')
 
-        return json_response(results)
+        depth_query = self.buildQuery(request)
+        depth_query['experiment_type'] = "Wet (Water) Depth"
+        
+        
+        depth_results = reports.find(depth_query).sort('location.name')
+
+
+
+        depths = [float(sum(r['data']['measurement'])) / len(r['data']['measurement']) for r in depth_results]
+        # widths = list(width_results)
+        widths = [r['data']['measurement'] for r in width_results]
+        
+        
+        distance = [
+            0.1,0.411,0.822,1.233,1.644,2.055,2.466,2.877,3.288,3.699,4.12
+        ]
+        
+        wd = zip(widths, depths)
+        
+        csas = [river_maths.calCSA(w,d) for w,d in wd]
+        
+        plot_data = zip(distance,csas[:len(distance)])
+        
+
+        # results = json.dumps(list(depth_results), default=json_util.default)
+        # results = json.dumps([result['experiment_type'] for result in results], default=json_util.default)
+
+        return json_response(json.dumps(plot_data, default=json_util.default))
 
 
 
