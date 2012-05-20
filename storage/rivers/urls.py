@@ -3,5 +3,6 @@ from django.conf.urls.defaults import patterns, url
 import views
 
 urlpatterns = patterns('datastore.views',
-    url(r'^add/', views.AddReport.as_view(), name='AddReport'),
+    url(r'^example', views.ViewReport.as_view(), name='ViewReport'),
 )
+

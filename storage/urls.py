@@ -6,7 +6,8 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
     # Example:
-    (r'^reports/', include('datastore.urls')),
+    (r'^data/', include('datastore.urls')),
+    (r'^reports/rivers/', include('rivers.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
