@@ -65,15 +65,15 @@ class AddReport(View):
             'error' : "The document POSTed was not well formed",
             'fields' : [list of fields that were missing or contained errors],
         }
-        
-        
-        
         """
+
         try:
-            data = json.loads(request.raw_post_data[4:])
-        except Exception, e:
-            print e
-            data = ""
+            data = json.loads(request.raw_post_data)
+        except ValueError, e:
+            return json_response(json.dumps({
+                'error' : e
+            }), code="500")
+            
         
         ids = []
         if isinstance(data, list):

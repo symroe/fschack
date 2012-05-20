@@ -1,0 +1,97 @@
+<style>
+dt {
+    font-weight:bold;
+}
+</style>
+
+<header>
+    <dl>
+        <dt>Group Number</dt>
+        <dd>{{ report.0.group_id }}</dd>
+        <dt>Site Number</dt>
+        <dd>{{ report.0.location.name }}</dd>
+    </dl>
+</header>
+<dl>
+    {% with report_dict.wetwidth as report %}
+    <dt>{{ report.experiment_type }}</dt>
+    <dd>{{ report.data.measurement }}{{ report.data.unitofmeasurement }}</dd>
+    {% endwith %}
+    {% with report_dict.wettedperimeter as report %}
+    <dt>{{ report.experiment_type }}</dt>
+    <dd>{{ report.data.measurement }}{{ report.data.unitofmeasurement }}</dd>
+    {% endwith %}
+    {% with report_dict.gradient as report %}
+    <dt>{{ report.experiment_type }}</dt>
+    <dd>{{ report.data.measurement }}{{ report.data.unitofmeasurement }}</dd>
+    {% endwith %}
+
+    {% with report_dict.impellortime as report %}
+    <dt>{{ report.experiment_type }}</dt>
+    <dd>
+        <ul>
+            {% for m in report.data.measurement %}
+            <li>{{ m }} {{ report.data.unitofmeasurement }}</li>
+            {% endfor %}
+        </ul>
+    
+    </dd>
+    {% endwith %}
+
+    {% with report_dict.wetwaterdepth as report %}
+    <dt>{{ report.experiment_type }}</dt>
+    <dd>
+        <ul>
+            {% for m in report.data.measurement %}
+            <li>{{ m }} {{ report.data.unitofmeasurement }}</li>
+            {% endfor %}
+        </ul>
+    
+    </dd>
+    {% endwith %}
+
+
+    <dt>{{ report_dict.stonemeasurement.experiment_type }}</dt>
+    <dd>
+        <table>
+            <tr>
+                {% with report_dict.stonemeasurement as report %}
+                <td>Length</td>
+                        {% for m in report.data.measurement %}
+                        <td>{{ m.length }} {{ report.data.unitofmeasurement }}</td>
+                        {% endfor %}
+                {% endwith %}
+            </tr>
+        
+            <tr>
+                {% with report_dict.stonemeasurement as report %}
+                <td>Width</td>
+                        {% for m in report.data.measurement %}
+                        <td>{{ m.width }} {{ report.data.unitofmeasurement }}</td>
+                        {% endfor %}
+                {% endwith %}
+            </tr>
+        
+            <tr>
+                {% with report_dict.stonemeasurement as report %}
+                <td>Depth</td>
+                        {% for m in report.data.measurement %}
+                        <td>{{ m.depth }} {{ report.data.unitofmeasurement }}</td>
+                        {% endfor %}
+                {% endwith %}
+            </tr>
+        
+            <tr>
+                {% with report_dict.stonemeasurement as report %}
+                <td>Power Shape Index</td>
+                        {% for m in report.data.measurement %}
+                        <td>{{ m.powershapeindex }} {{ report.data.unitofmeasurement }}</td>
+                        {% endfor %}
+                {% endwith %}
+            </tr>
+        
+        
+        </table>
+    </dd>
+
+</dl>
