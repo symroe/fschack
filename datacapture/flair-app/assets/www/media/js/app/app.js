@@ -53,7 +53,7 @@ function startApp() {
 			e.preventDefault();
 			$.ajax({
 				crossDomain:true,
-				url: "http://192.168.2.20:8000/data/add/",
+				url: "http://192.168.2.17:8000/data/add/",
 				dataType: 'json',
 				contentType: 'application/json',
 				data: JSON.stringify(getAllObservations()),
