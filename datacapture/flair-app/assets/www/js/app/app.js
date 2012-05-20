@@ -23,7 +23,7 @@ function startApp() {
 	// Homepage
 	///////////////////////////////////////////////////////////////////////////
 	
-	$("#homePage").live('pageshow',function() {
+	$("#homePage").live('pageshow pageinit',function() {
 		// Clear current site in localStorage whenever this page is loaded,
 		// should handle people going back to the homepage and choosing a new
 		// site
@@ -90,15 +90,14 @@ function startApp() {
 	
 	$("#visualisationPage").live('pageshow',function() {
 		for(var i = 1; i < 9; i++) {
-				// Check the relevant observation object exists and is completed
-				var observation = getObservation("site" + i.toString());
-				if(observationIsComplete(observation)) {
-					var wetWidth = observation[0].data.measurement;
-					var depths = observation[4].data.measurement;
-					var chartDivId = "site" + i.toString() + "Chart";
-					// plotGraph(chartDivId, wetWidth, depths);
-				}
-			});
+			// Check the relevant observation object exists and is completed
+			var observation = getObservation("site" + i.toString());
+			if(observationIsComplete(observation)) {
+				var wetWidth = observation[0].data.measurement;
+				var depths = observation[4].data.measurement;
+				var chartDivId = "site" + i.toString() + "Chart";
+				createCrossSection(chartDivId, wetWidth, depths);
+			}
 		}
 	});
 	
@@ -318,7 +317,16 @@ function getCurrentObservation() {
 }
 
 function getObservation(site_name) {
-	return JSON.parse(window.localStorage.getItem(site_name + ":observation"));
+	if(site_name !== null) {
+		var json = window.localStorage.getItem(site_name + ":observation");
+		if(json !== null) {
+			return JSON.parse(json);
+		}
+	}
+	else {
+		return null;
+	}
+			
 }
 
 /**
@@ -529,7 +537,7 @@ function siteObservation(site_name, user_id, group_id, datetime) {
  * @param observation - the object to check
  */
 function observationIsComplete(observation) {
-	if(observation === null || observation.length === 0) {
+	if(typeof observation === 'undefined' || observation === null) {
 		return false;
 	}
 	

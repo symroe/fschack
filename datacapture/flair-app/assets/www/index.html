@@ -7,6 +7,7 @@
 		<title>Fieldwork</title>
 		
 		<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.1.0.min.css"/>
+		<link rel="stylesheet" type="text/css" href="css/jquery.jqplot.css"/>
 		
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
 
@@ -29,6 +30,8 @@
 		<script type="text/javascript" charset="utf-8" src="js/app/bootstrap.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/libs/jquery.mobile-1.1.0.min.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/libs/jquery.validate.min.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/libs/jquery.jqplot.min.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/app/chartrivercs.js"></script>
 	</head>
 	<body>
 	
@@ -37,7 +40,7 @@
 			<div data-role="header">
 		  		<a href="#homePage" data-icon="home">Home</a>
 		    	<h1>Fieldwork</h1> 
-		    	<a href="#visualisePage" data-icon="gear">Visualise</a>
+		    	<a href="#visualisationPage" data-icon="gear">Visualise</a>
 		  	</div> 
 		  	<div data-role="content">
 		    	<ul id="siteList" data-role="listview"> 
@@ -64,14 +67,8 @@
 			<div data-role="content">
 				<h2 id="site-title"><!-- Put in by JS --></h2> 
 				<p>First, we need to measure the <abbr title="The width of the river at the water line.">Wet Width</abbr>, the Wetted Perimeter and the Gradient of the surface of the water.</p>
-				<div class="ui-grid-a">
-					<div class="ui-block-a">
-						<p style="text-align:center;"><h3>Wet Width and Wetted Perimeter</h3><img src="img/river.png" alt="The River"/></p>
-					</div>
-					<div class="ui-block-b">
-						<p style="text-align:center;"><h3>The Angle</h3><img src="img/angle.png" alt="The River"/></p>
-					</div>
-				</div>
+				<p style="text-align:center;"><h3>Wet Width and Wetted Perimeter</h3><img src="img/river.png" alt="The River"/></p>
+				<p style="text-align:center;"><h3>The Angle</h3><img src="img/angle.png" alt="The River"/></p>
 		    	<form id="site-form">
 		    		<div data-role="field-contain">
 		    			<label for="wet-width">Wet Width (m): </label>
@@ -181,16 +178,22 @@
 				<h1>Visualise</h1> 
 			</div>
 			<div data-role="content">
-				<div class="ui-grid-a">
-					<div class="ui-block-a"><div id="site1Chart"></div></div>
-					<div class="ui-block-b"><div id="site2Chart"></div></div>
-					<div class="ui-block-a"><div id="site3Chart"></div></div>
-					<div class="ui-block-b"><div id="site4Chart"></div></div>
-					<div class="ui-block-a"><div id="site5Chart"></div></div>
-					<div class="ui-block-b"><div id="site6Chart"></div></div>
-					<div class="ui-block-a"><div id="site7Chart"></div></div>
-					<div class="ui-block-b"><div id="site8Chart"></div></div>
-				</div>
+				<h2>Site 1</h2>
+				<div id="site1Chart"></div>
+				<h2>Site 2</h2>
+				<div id="site2Chart"></div>
+				<h2>Site 3</h2>
+				<div id="site3Chart"></div>
+				<h2>Site 4</h2>
+				<div id="site4Chart"></div>
+				<h2>Site 5</h2>
+				<div id="site5Chart"></div>
+				<h2>Site 6</h2>
+				<div id="site6Chart"></div>
+				<h2>Site 7</h2>
+				<div id="site7Chart"></div>
+				<h2>Site 8</h2>
+				<div id="site8Chart"></div>
 			</div>
 		</div>
 	</body>
