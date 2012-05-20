@@ -71,6 +71,7 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'utils.middleware.CORSMiddleware'
 )
 
 ROOT_URLCONF = 'storage.urls'
@@ -105,3 +106,27 @@ connection = Connection()
 CONNECTION = Connection('localhost', 27017)
 DB = CONNECTION[DATABASES['default']['NAME']]
 
+
+
+DEFAULT_TYPE = (
+    'text/javascript',
+    'application/javascript',
+    'application/json',
+    'text/html'
+)
+
+DEFAULT_HEADERS = (
+    ('Access-Control-Allow-Origin', '*'),
+    ('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With, X-CSRFToken, Authorization, *'),
+    ('Access-Control-Allow-Methods', 'POST, PUT, DELETE, GET, OPTIONS'),
+    ('Access-Control-Allow-Credentials', 'true'),
+)
+
+
+CORS_PATHS = (
+    ('/data/add/',  DEFAULT_TYPE , DEFAULT_HEADERS), 
+    ('/data/add',  DEFAULT_TYPE , DEFAULT_HEADERS), 
+)
+
+
+CROSS_DOMAIN = True

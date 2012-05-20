@@ -11,6 +11,11 @@ from utils.views import json_response
 reports = settings.DB.reports
 
 class AddReport(View):
+    
+    def options(self, request, *args, **kwargs):
+        return HttpResponse()
+    
+    
     def get(self, request):
         
         res = json.dumps({
@@ -74,13 +79,14 @@ class AddReport(View):
                 'error' : e
             }), code="500")
             
-        
         ids = []
         if isinstance(data, list):
-            for report in data:
-                ids.append(self.addreport(report))
-        elif isinstance(data, dict):
-            ids = self.addreport(data)
+            for group in data:
+                print group
+                for report in group:
+                    print "\t\t\t",report
+                    ids.append(self.addreport(report))
+
         else:
             return json_response(json.dumps({
                 'error' : "expected JSON list or object"
