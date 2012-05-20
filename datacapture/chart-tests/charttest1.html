@@ -1,0 +1,20 @@
+<html>
+	<head>
+		<title>Charting: Test 1</title>
+		<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="excanvas.js"></script><![endif]-->
+		<script language="javascript" type="text/javascript" src="jquery-1.7.2.min.js"></script>
+		<script language="javascript" type="text/javascript" src="jquery.jqplot.min.js"></script>
+		<script language="javascript" type="text/javascript" src="chartrivercs.js"></script>
+		<link rel="stylesheet" type="text/css" href="jquery.jqplot.css" />
+	</head>
+	<body>
+		<!-- jqplot available from http://www.jqplot.com -->
+		<h1>Charting: Test 1</h1>
+		<div id="chartdiv" style="height:400px;width:300px; "></div>
+		<script class="code" language="javascript" type="text/javascript">
+			var wetWidth=1.9;
+			var depthMeasurements = [0.2,0.25,0.11,0.1,0.1,0.09,0.09,0.06,0.12,0.02,0.03];
+			createCrossSection("chartdiv",wetWidth, depthMeasurements);					
+		</script>
+	</body>
+</html>
