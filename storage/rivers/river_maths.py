@@ -1,4 +1,3 @@
-#riverMaths.py
 import math
 
 def calCSA(width, avgDepth):

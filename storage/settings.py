@@ -1,3 +1,5 @@
+import os
+
 # Django settings for storage project.
 
 DEBUG = True
@@ -41,17 +43,18 @@ USE_L10N = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = ''
+# MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media'),
+MEDIA_ROOT = "/Users/sym/Projects/fschack/storage/media/"
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = '/media/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/media/'
+ADMIN_MEDIA_PREFIX = '/adminmedia/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '$-x%_o#208ouv%!on-lublxf4ojcvyn2nty^j0-1-v@j%rl3kx'
@@ -69,6 +72,7 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'utils.middleware.CORSMiddleware'
 )
 
 ROOT_URLCONF = 'storage.urls'
@@ -77,6 +81,8 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(os.path.dirname(__file__), 'templates'),
+    
 )
 
 INSTALLED_APPS = (
@@ -101,3 +107,27 @@ connection = Connection()
 CONNECTION = Connection('localhost', 27017)
 DB = CONNECTION[DATABASES['default']['NAME']]
 
+
+
+DEFAULT_TYPE = (
+    'text/javascript',
+    'application/javascript',
+    'application/json',
+    'text/html'
+)
+
+DEFAULT_HEADERS = (
+    ('Access-Control-Allow-Origin', '*'),
+    ('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With, X-CSRFToken, Authorization, *'),
+    ('Access-Control-Allow-Methods', 'POST, PUT, DELETE, GET, OPTIONS'),
+    ('Access-Control-Allow-Credentials', 'true'),
+)
+
+
+CORS_PATHS = (
+    ('/data/add/',  DEFAULT_TYPE , DEFAULT_HEADERS), 
+    ('/data/add',  DEFAULT_TYPE , DEFAULT_HEADERS), 
+)
+
+
+CROSS_DOMAIN = True
