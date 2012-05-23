@@ -40,7 +40,7 @@
       <div class="container">
   
         <h1>River Data Activity</h1>
-        <p>Use this document as a way to quick start any new project.<br> All you get is this message and a barebones HTML document.</p>
+        <p></p>
         
           	<div class="row">
           		<div class="span12">
@@ -64,16 +64,7 @@
           	
           	
           	<div class="row">
-          		<div class="span4">
-          			<form class="well">
-          			  <label>Suitable For:</label>
-          			  <input type="text" class="span3" placeholder="Type something…">
-          			  <label>Advantages:</label>
-          			  <textarea class="input" id="textarea" rows="3"></textarea>
-          			  <label>Disadvantages:</label>
-          			  <textarea class="input" id="textarea" rows="3"></textarea>
-          			</form>
-          		</div>
+          		
           	</div>
           	
           
@@ -98,17 +89,19 @@
                 // draws it.
                 function drawChart() {
                 
-                	/*var jsonData = $.ajax({
+                	var jsonData = $.ajax({
                 	          //url: "https://raw.github.com/symroe/fschack/master/datacapture/json%20data/Grp1-Site1.json",
                 	          url: "http://192.168.2.20:8000/reports/report/",
                 	          dataType:"jsonp",
                 	          async: false
                 	          }).responseText;
                 	          
-                	 console.log(jsonData);*/
+                	 //console.log(jsonData);
+                	 
+                	 var chart_data = new google.visualization.DataTable(jsonData)
           
                
-                  var chart_data = new google.visualization.DataTable();
+                  /*var chart_data = new google.visualization.DataTable();
                   chart_data.addColumn('number', 'Distance (km)');
                   chart_data.addColumn('number', 'Hydraulic Radius');
                   chart_data.addRows([
@@ -123,7 +116,7 @@
                     [3.288, 0.12],
                     [3.699, 0.08],
                     [4.12, 0.24]
-                  ]);
+                  ]);*/
                   
                   
                   
